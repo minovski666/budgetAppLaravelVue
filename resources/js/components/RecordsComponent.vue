@@ -16,19 +16,23 @@
                     <button class="btn btn-danger" @click="deleteRecord(record.id)">Delete</button>
                 </td>
             </tr>
-            <tr>
+            <tr class="text-dark">
                 <td class="balance">Balance: {{balance}}</td>
                 <td class="income">Income: {{income}}</td>
                 <td class="expense">Expense: {{expense}}</td>
             </tr>
             <tr v-show="incomeShow">
-                <td><input type="number" v-model="cost" name="cost" class="form-control"></td>
-                <td><input type="text" v-model="name" name="name" class="form-control"></td>
+                <td><input type="number" v-model="cost" name="cost" class="form-control" placeholder="Cost"></td>
+                <td><input type="text" v-model="name" name="name" placeholder="Name of the cost" class="form-control">
+                </td>
                 <td><select name="select" id="select" v-model="select" class="form-control">
+                    <option value="">Select type</option>
                     <option value="1">Income</option>
                     <option value="2">Expense</option>
                 </select></td>
-                <td><button type="submit" @click="save()" class="btn btn-info btn-submit">Add</button></td>
+                <td>
+                    <button type="submit" @click="save()" class="btn btn-info btn-submit">Add</button>
+                </td>
             </tr>
         </table>
         <button class="btn btn-info" @click="createRecord()">Create Record</button>
@@ -39,7 +43,7 @@
     export default {
         data() {
             return {
-                cost:'',
+                cost: '',
                 name: '',
                 select: '',
                 _token: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
@@ -80,7 +84,10 @@
                 this.getBalance();
             },
             createRecord() {
-                this.incomeShow = true;
+                this.incomeShow = !this.incomeShow;
+                this.name = '';
+                this.cost = '';
+                this.select = '';
             },
             save() {
                 axios.post('/records/store', {

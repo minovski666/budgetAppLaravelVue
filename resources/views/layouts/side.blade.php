@@ -8,7 +8,7 @@
                 </a>
                 <ul aria-expanded="false">
                     <li class="active"><a href='/records'>Records</a></li>
-                    <li><a href='#'>Example</a></li>
+                    <li><a href='/records/filters'>Filters</a></li>
                 </ul>
             </li>
             <li><a href="#" aria-expanded="false"><i class="nav-icon ti ti-comment"></i><span

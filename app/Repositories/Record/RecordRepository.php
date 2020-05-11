@@ -29,4 +29,38 @@ class RecordRepository extends BaseRepository implements RecordRepositoryInterfa
 
         $record->delete();
     }
+
+    public function betweenDate($from, $to)
+    {
+        $startDate = date('Y-m-d', strtotime($from));
+        $endDate = date('Y-m-d', strtotime($to));
+        return $this->model::whereDate('created_at', '>', $startDate)->whereDate('created_at', '<', $endDate)->get();
+    }
+
+    public function betweenDateBalance($from, $to)
+    {
+        $startDate = date('Y-m-d', strtotime($from));
+        $endDate = date('Y-m-d', strtotime($to));
+        return $this->model::whereDate('created_at', '>', $startDate)->whereDate('created_at', '<', $endDate)->get();
+    }
+
+    public function getIncomeFilter($from, $to)
+    {
+        $startDate = date('Y-m-d', strtotime($from));
+        $endDate = date('Y-m-d', strtotime($to));
+        return $this->model::where('select', '=', 1)->whereDate('created_at', '>', $startDate)->whereDate('created_at', '<', $endDate)->sum('cost');
+
+    }
+
+    public function getExpenseFilter($from, $to)
+    {
+        $startDate = date('Y-m-d', strtotime($from));
+        $endDate = date('Y-m-d', strtotime($to));
+        return $this->model::where('select', '=', 2)->whereDate('created_at', '>', $startDate)->whereDate('created_at', '<', $endDate)->sum('cost');
+    }
+
+    public function getBalanceFilter($from, $to)
+    {
+        return $this->getIncomeFilter($from, $to) - $this->getExpenseFilter($from, $to);
+    }
 }
