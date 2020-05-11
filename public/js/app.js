@@ -1979,18 +1979,49 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      records: ''
+      records: '',
+      income: '',
+      expense: '',
+      balance: ''
     };
   },
   mounted: function mounted() {
-    var _this = this;
+    this.getInitSetup();
+  },
+  methods: {
+    deleteRecord: function deleteRecord(id) {
+      var _this = this;
 
-    axios.get('/records/all').then(function (response) {
-      _this.records = response.data;
-    });
+      axios.get('records/delete/' + id).then(function (response) {
+        _this.getInitSetup();
+      });
+    },
+    getAllRecords: function getAllRecords() {
+      var _this2 = this;
+
+      axios.get('/records/all').then(function (response) {
+        _this2.records = response.data;
+      });
+    },
+    getBalance: function getBalance() {
+      var _this3 = this;
+
+      axios.get('records/balance').then(function (response) {
+        _this3.income = response.data.income;
+        _this3.expense = response.data.expense;
+        _this3.balance = response.data.balance;
+      });
+    },
+    getInitSetup: function getInitSetup() {
+      this.getAllRecords();
+      this.getBalance();
+    }
   }
 });
 
@@ -37780,11 +37811,38 @@ var render = function() {
           _vm._v(" "),
           record.select === 2
             ? _c("td", [_vm._v(_vm._s(record.cost))])
-            : _c("td")
+            : _c("td"),
+          _vm._v(" "),
+          _c("td", [
+            _c(
+              "button",
+              {
+                staticClass: "btn btn-danger",
+                on: {
+                  click: function($event) {
+                    return _vm.deleteRecord(record.id)
+                  }
+                }
+              },
+              [_vm._v("Delete")]
+            )
+          ])
         ])
       }),
       _vm._v(" "),
-      _vm._m(1)
+      _c("tr", [
+        _c("td", { staticClass: "balance" }, [
+          _vm._v("Balance: " + _vm._s(_vm.balance))
+        ]),
+        _vm._v(" "),
+        _c("td", { staticClass: "income" }, [
+          _vm._v("Income: " + _vm._s(_vm.income))
+        ]),
+        _vm._v(" "),
+        _c("td", { staticClass: "expense" }, [
+          _vm._v("Expense: " + _vm._s(_vm.expense))
+        ])
+      ])
     ],
     2
   )
@@ -37800,18 +37858,6 @@ var staticRenderFns = [
       _c("td", [_vm._v("Name")]),
       _vm._v(" "),
       _c("td", [_vm._v("Expenses")])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("tr", [
-      _c("td", { staticClass: "balance" }),
-      _vm._v(" "),
-      _c("td", { staticClass: "income" }),
-      _vm._v(" "),
-      _c("td", { staticClass: "expense" })
     ])
   }
 ]
