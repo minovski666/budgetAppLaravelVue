@@ -35,9 +35,6 @@
                 <div class="col-md-12 m-b-30">
                     <h3>Budget</h3>
                   <records-index></records-index>
-                    <button class="btn btn-info right">
-                        <a href="/records/create">Create</a>
-                    </button>
                 </div>
             </div>
         </div>
