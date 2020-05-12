@@ -22,37 +22,34 @@ class RecordService
         $this->recordRepository = $recordRepository;
     }
 
+    public function getAllRecords()
+    {
+        return $this->recordRepository->showAllRecords();
+    }
+
     public function store(CreateRecord $dto)
     {
         $record = new Record();
         $record->cost = $dto->cost;
         $record->select = $dto->select;
         $record->name = $dto->name;
-
         $record->save();
-//        $this->userRepository->create([
-//           User::NAME => $dto->name,
-//           User::EMAIL => $dto->email
-//        ]);
     }
 
     public function getIncome()
     {
-        $records = Record::where('select', '=', 1)->where( DB::raw('MONTH(created_at)'), '=', date('n') )->sum('cost');
-        return $records;
+        return $this->recordRepository->showIncomeMonth();
     }
 
     public function getExpense()
     {
-        $records = Record::where('select', '=', 2)->where( DB::raw('MONTH(created_at)'), '=', date('n') )->sum('cost');
-        return $records;
+        return $this->recordRepository->showExpenseMonth();
     }
 
     public function getBalance()
     {
         $incomes = $this->getIncome();
         $expense = $this->getExpense();
-
         return $incomes - $expense;
     }
 
@@ -91,7 +88,6 @@ class RecordService
     {
         $filtredIncome = $this->filteredIncome($dto);
         $filtredExpense = $this->filteredExpense($dto);
-
         return $filtredIncome - $filtredExpense;
     }
 }

@@ -22,14 +22,12 @@ class RecordController extends Controller
 
     public function index()
     {
-        $records = Record::where('created_at', '>=', Carbon::now()->subMonth()->toDateTimeString())->get();
-        return view('records.index', compact('records'));
+        return view('records.index');
     }
 
     public function getRecords()
     {
-        $records = Record::where( DB::raw('MONTH(created_at)'), '=', date('n') )->get();
-        return $records;
+        return $this->recordService->getAllRecords();
     }
 
     public function store(CreateRequest $requestFromDto)

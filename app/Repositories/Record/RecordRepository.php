@@ -1,11 +1,10 @@
 <?php
 
-
 namespace App\Repositories\Record;
-
 
 use App\Repositories\BaseRepository;
 use App\Record;
+use Illuminate\Support\Facades\DB;
 
 class RecordRepository extends BaseRepository implements RecordRepositoryInterface
 {
@@ -23,10 +22,14 @@ class RecordRepository extends BaseRepository implements RecordRepositoryInterfa
         return 'test';
     }
 
+    public function showAllRecords()
+    {
+        return $this->model::where(DB::raw('MONTH(created_at)'), '=', date('n'))->get();
+    }
+
     public function deleteRecord($id)
     {
         $record = $this->model::findOrFail($id);
-
         $record->delete();
     }
 
@@ -49,7 +52,6 @@ class RecordRepository extends BaseRepository implements RecordRepositoryInterfa
         $startDate = date('Y-m-d', strtotime($from));
         $endDate = date('Y-m-d', strtotime($to));
         return $this->model::where('select', '=', 1)->whereDate('created_at', '>', $startDate)->whereDate('created_at', '<', $endDate)->sum('cost');
-
     }
 
     public function getExpenseFilter($from, $to)
@@ -62,5 +64,15 @@ class RecordRepository extends BaseRepository implements RecordRepositoryInterfa
     public function getBalanceFilter($from, $to)
     {
         return $this->getIncomeFilter($from, $to) - $this->getExpenseFilter($from, $to);
+    }
+
+    public function showIncomeMonth()
+    {
+        return $this->model::where('select', '=', 1)->where(DB::raw('MONTH(created_at)'), '=', date('n'))->sum('cost');
+    }
+
+    public function showExpenseMonth()
+    {
+        return $this->model::where('select', '=', 2)->where(DB::raw('MONTH(created_at)'), '=', date('n'))->sum('cost');
     }
 }
