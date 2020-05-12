@@ -1934,6 +1934,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -1942,7 +1950,8 @@ __webpack_require__.r(__webpack_exports__);
       records: '',
       income: '',
       expense: '',
-      balance: ''
+      balance: '',
+      search: ''
     };
   },
   mounted: function mounted() {
@@ -1980,6 +1989,20 @@ __webpack_require__.r(__webpack_exports__);
           _this3.balance = response.data.balance;
         });
       });
+    },
+    searchQuery: function searchQuery() {
+      var _this4 = this;
+
+      if (this.search.length >= 2) {
+        axios.get('/records/search/' + this.search).then(function (response) {
+          _this4.records = response.data;
+          axios.get('/records/search/balance/' + _this4.search).then(function (response) {
+            _this4.income = response.data.income;
+            _this4.expense = response.data.expense;
+            _this4.balance = response.data.balance;
+          });
+        });
+      }
     }
   }
 });
@@ -37751,47 +37774,82 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
-    _c("input", {
-      directives: [
-        {
-          name: "model",
-          rawName: "v-model",
-          value: _vm.from,
-          expression: "from"
-        }
-      ],
-      staticClass: "datepicker",
-      attrs: { type: "date", name: "from" },
-      domProps: { value: _vm.from },
-      on: {
-        input: function($event) {
-          if ($event.target.composing) {
-            return
+    _c("div", { staticClass: "col-xs-12 text-center" }, [
+      _c("label", { attrs: { for: "From" } }, [_vm._v("From Date")]),
+      _vm._v(" "),
+      _c("input", {
+        directives: [
+          {
+            name: "model",
+            rawName: "v-model",
+            value: _vm.from,
+            expression: "from"
           }
-          _vm.from = $event.target.value
+        ],
+        staticClass: "datepicker",
+        attrs: { type: "date", name: "from" },
+        domProps: { value: _vm.from },
+        on: {
+          input: function($event) {
+            if ($event.target.composing) {
+              return
+            }
+            _vm.from = $event.target.value
+          }
         }
-      }
-    }),
+      }),
+      _vm._v(" "),
+      _c("label", { attrs: { for: "To" } }, [_vm._v("To Date")]),
+      _vm._v(" "),
+      _c("input", {
+        directives: [
+          { name: "model", rawName: "v-model", value: _vm.to, expression: "to" }
+        ],
+        staticClass: "datepicker",
+        attrs: { type: "date", name: "to" },
+        domProps: { value: _vm.to },
+        on: {
+          change: function($event) {
+            return _vm.getNewData()
+          },
+          input: function($event) {
+            if ($event.target.composing) {
+              return
+            }
+            _vm.to = $event.target.value
+          }
+        }
+      })
+    ]),
     _vm._v(" "),
-    _c("input", {
-      directives: [
-        { name: "model", rawName: "v-model", value: _vm.to, expression: "to" }
-      ],
-      staticClass: "datepicker",
-      attrs: { type: "date", name: "to" },
-      domProps: { value: _vm.to },
-      on: {
-        change: function($event) {
-          return _vm.getNewData()
-        },
-        input: function($event) {
-          if ($event.target.composing) {
-            return
+    _c("hr"),
+    _vm._v(" "),
+    _c("div", { staticClass: "col-md-12" }, [
+      _c("input", {
+        directives: [
+          {
+            name: "model",
+            rawName: "v-model",
+            value: _vm.search,
+            expression: "search"
           }
-          _vm.to = $event.target.value
+        ],
+        staticClass: "form-control",
+        attrs: { type: "text", name: "search", placeholder: "Search a cost" },
+        domProps: { value: _vm.search },
+        on: {
+          keypress: function($event) {
+            return _vm.searchQuery()
+          },
+          input: function($event) {
+            if ($event.target.composing) {
+              return
+            }
+            _vm.search = $event.target.value
+          }
         }
-      }
-    }),
+      })
+    ]),
     _vm._v(" "),
     _c(
       "table",

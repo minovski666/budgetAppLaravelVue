@@ -25,4 +25,6 @@ interface RecordRepositoryInterface
     public function showIncomeMonth();
 
     public function showExpenseMonth();
+
+    public function showSearchResults($search);
 }

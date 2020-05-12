@@ -6,6 +6,7 @@ namespace App\Services;
 
 use App\DTO\Record\CreateRecord;
 use App\DTO\Record\DeleteRecord;
+use App\DTO\Record\SearchRecord;
 use App\DTO\Record\SelectRecord;
 use App\Repositories\Record\RecordRepository;
 use App\Record;
@@ -89,5 +90,31 @@ class RecordService
         $filtredIncome = $this->filteredIncome($dto);
         $filtredExpense = $this->filteredExpense($dto);
         return $filtredIncome - $filtredExpense;
+    }
+
+    public function getSearchIncome(SearchRecord $dto)
+    {
+        $record = new Record();
+        $record->search = $dto->search;
+        return $this->recordRepository->showSearchResultsIncome($record->search);
+    }
+
+    public function getSearchExpense(SearchRecord $dto)
+    {
+        $record = new Record();
+        $record->search = $dto->search;
+        return $this->recordRepository->showSearchResultsExpense($record->search);
+    }
+
+    public function getSearchBalance(SearchRecord $dto)
+    {
+        $income = $this->getSearchIncome($dto);
+        $expense = $this->getSearchExpense($dto);
+        return $income - $expense;
+    }
+
+    public function getSearchResults($search)
+    {
+        return $this->recordRepository->showSearchResults($search);
     }
 }

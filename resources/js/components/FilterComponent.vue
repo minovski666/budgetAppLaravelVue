@@ -1,7 +1,15 @@
 <template>
     <div>
-        <input type="date" name="from" v-model="from" class="datepicker">
-        <input type="date" name="to" v-model="to" class="datepicker" @change="getNewData()">
+        <div class="col-xs-12 text-center">
+            <label for="From">From Date</label>
+            <input type="date" name="from" v-model="from" class="datepicker">
+            <label for="To">To Date</label>
+            <input type="date" name="to" v-model="to" class="datepicker" @change="getNewData()">
+        </div>
+        <hr>
+        <div class="col-md-12">
+            <input type="text" name="search" class="form-control" v-model="search" @keypress="searchQuery()" placeholder="Search a cost">
+        </div>
         <table class="table">
             <tr>
                 <td>Income</td>
@@ -33,7 +41,8 @@
                 records: '',
                 income: '',
                 expense: '',
-                balance: ''
+                balance: '',
+                search: ''
             }
         },
         mounted() {
@@ -59,18 +68,32 @@
                 this.getAllRecords();
                 this.getBalance();
             },
-            getNewData(){
-                axios.get('/records/filters/'+this.from+'/'+this.to)
+            getNewData() {
+                axios.get('/records/filters/' + this.from + '/' + this.to)
                     .then((response) => {
                         this.records = response.data;
-                        axios.get('/records/filters/balance/'+this.from+'/'+this.to)
-                        .then((response) => {
-                            this.income = response.data.income;
-                            this.expense = response.data.expense;
-                            this.balance = response.data.balance;
-                        })
+                        axios.get('/records/filters/balance/' + this.from + '/' + this.to)
+                            .then((response) => {
+                                this.income = response.data.income;
+                                this.expense = response.data.expense;
+                                this.balance = response.data.balance;
+                            })
 
                     });
+            },
+            searchQuery(){
+                if (this.search.length >= 2){
+                    axios.get('/records/search/' + this.search)
+                    .then((response) => {
+                        this.records = response.data;
+                        axios.get('/records/search/balance/' + this.search)
+                            .then((response) => {
+                                this.income = response.data.income;
+                                this.expense = response.data.expense;
+                                this.balance = response.data.balance;
+                            })
+                    })
+                }
             },
         }
     }

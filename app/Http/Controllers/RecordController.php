@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateRequest;
 use App\Http\Requests\DeleteRequest;
+use App\Http\Requests\SearchRequest;
 use App\Http\Requests\SelectRequest;
 use App\Record;
 use App\Services\RecordService;
@@ -79,6 +80,20 @@ class RecordController extends Controller
             'income' => $this->recordService->filteredIncome($selReq->convertToDto()),
             'expense' => $this->recordService->filteredExpense($selReq->convertToDto()),
             'balance' => $this->recordService->filtredBalance($selReq->convertToDto())
+        ];
+    }
+
+    public function searchResults($search)
+    {
+        return $this->recordService->getSearchResults($search);
+    }
+
+    public function searchBalance(SearchRequest $srcReq)
+    {
+        return [
+            'income' => $this->recordService->getSearchIncome($srcReq->convertToDto()),
+            'expense' => $this->recordService->getSearchExpense($srcReq->convertToDto()),
+            'balance' => $this->recordService->getSearchBalance($srcReq->convertToDto())
         ];
     }
 }

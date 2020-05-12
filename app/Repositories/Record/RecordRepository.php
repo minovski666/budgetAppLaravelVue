@@ -75,4 +75,19 @@ class RecordRepository extends BaseRepository implements RecordRepositoryInterfa
     {
         return $this->model::where('select', '=', 2)->where(DB::raw('MONTH(created_at)'), '=', date('n'))->sum('cost');
     }
+
+    public function showSearchResults($search)
+    {
+        return $this->model::where('name', 'LIKE', "%$search%")->get();
+    }
+
+    public function showSearchResultsIncome($search)
+    {
+        return $this->model::where('name', 'LIKE', "%$search%")->where('select', '=', 1)->sum('cost');
+    }
+
+    public function showSearchResultsExpense($search)
+    {
+        return $this->model::where('name', 'LIKE', "%$search%")->where('select', '=', 2)->sum('cost');
+    }
 }
