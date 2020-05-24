@@ -34,7 +34,8 @@ class RecordService
         $record->cost = $dto->cost;
         $record->select = $dto->select;
         $record->name = $dto->name;
-        $record->save();
+        $args = ['cost' => $record->cost, 'select' => $record->select, 'name' => $record->name];
+        $this->recordRepository->storingRecord($args);
     }
 
     public function getIncome()

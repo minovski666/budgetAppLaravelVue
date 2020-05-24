@@ -6,7 +6,7 @@ namespace App\Repositories\Record;
 
 interface RecordRepositoryInterface
 {
-    public function storingRecord();
+    public function storingRecord($args);
 
     public function deleteRecord($id);
 
@@ -27,4 +27,8 @@ interface RecordRepositoryInterface
     public function showExpenseMonth();
 
     public function showSearchResults($search);
+
+    public function showSearchResultsIncome($search);
+
+    public function showSearchResultsExpense($search);
 }

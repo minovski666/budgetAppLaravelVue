@@ -17,9 +17,9 @@ class RecordRepository extends BaseRepository implements RecordRepositoryInterfa
         $this->model = $record;
     }
 
-    public function storingRecord()
+    public function storingRecord($args)
     {
-        return 'test';
+        $this->create($args);
     }
 
     public function showAllRecords()
@@ -29,8 +29,7 @@ class RecordRepository extends BaseRepository implements RecordRepositoryInterfa
 
     public function deleteRecord($id)
     {
-        $record = $this->model::findOrFail($id);
-        $record->delete();
+        $this->deleteById($id);
     }
 
     public function betweenDate($from, $to)

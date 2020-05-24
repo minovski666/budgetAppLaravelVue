@@ -274,9 +274,16 @@ abstract class BaseRepository implements BaseRepositoryInterface
         return $this;
     }
 
-    public function create(array $args){
+    public function create(array $args)
+    {
+        $this->unsetClauses();
 
+        foreach ($args as $key=>$value) {
+            $this->model[$key] = $value;
+        }
+        $this->model->save();
     }
+
     /**
      * Create a new instance of the model's query builder.
      *
