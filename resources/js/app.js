@@ -5,6 +5,7 @@
  */
 
 require('./bootstrap');
+require('metismenu');
 
 window.Vue = require('vue');
 // import VueRouter from 'vue-router';

@@ -15,6 +15,8 @@ interface BaseRepositoryInterface
 
     public function deleteById($id);
 
+    public function create(array $args);
+
     public function first();
 
     public function get();
