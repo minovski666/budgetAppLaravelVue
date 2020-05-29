@@ -7,8 +7,8 @@
                     <span class="nav-title">Working</span>
                 </a>
                 <ul aria-expanded="false">
-                    <li class="active"><a href='/records'>Records</a></li>
-                    <li><a href='/records/filters'>Filters</a></li>
+                    <li><router-link to='/records'>Records</router-link></li>
+                    <li><router-link to='/records/filters'>Filters</router-link></li>
                 </ul>
             </li>
             <li><a href="#" aria-expanded="false"><i class="nav-icon ti ti-comment"></i><span

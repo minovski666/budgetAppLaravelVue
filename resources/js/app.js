@@ -8,14 +8,22 @@ require('./bootstrap');
 require('metismenu');
 
 window.Vue = require('vue');
-// import VueRouter from 'vue-router';
-// Vue.use(VueRouter);
-//
-// //Register Routes
-// const router = new VueRouter({
-//     mode: 'hash',
-//
-// })
+import VueRouter from 'vue-router';
+import RecordsComponent from "./components/RecordsComponent";
+import FilterComponent from "./components/FilterComponent";
+
+Vue.use(VueRouter);
+
+const routes = [
+    { path: '/records', component: RecordsComponent},
+    { path: '/records/filters', component: FilterComponent},
+]
+
+//Register Routes
+const router = new VueRouter({
+    routes: routes,
+    mode: 'history'
+})
 
 /**
  * The following block of code may be used to automatically register your
@@ -27,9 +35,9 @@ window.Vue = require('vue');
 
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
-
-Vue.component('records-index', require('./components/RecordsComponent.vue').default);
-Vue.component('filter-records', require('./components/FilterComponent.vue').default);
+//
+// Vue.component('records-index', require('./components/RecordsComponent.vue').default);
+// Vue.component('filter-records', require('./components/FilterComponent.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -39,4 +47,5 @@ Vue.component('filter-records', require('./components/FilterComponent.vue').defa
 
 const app = new Vue({
     el: '#app',
+    router
 });
