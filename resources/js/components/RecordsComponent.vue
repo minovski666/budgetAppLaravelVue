@@ -6,12 +6,22 @@
                 <td>Name</td>
                 <td>Expenses</td>
             </tr>
-            <tr v-for="record in records">
-                <td v-if="record.select === 1">{{record.cost}}</td>
+            <tr v-for="record in records" class="edit-link" @mouseover="show = record" @mouseleave="show = null">
+                <td v-if="record.select === 1"><input name="cost" @change="newCost($event)" type="number" v-show="show === record"
+                                                      :value="record.cost"><span v-show="show !== record">{{record.cost}}</span>
+                </td>
                 <td v-else></td>
-                <td>{{record.name}}</td>
-                <td v-if="record.select === 2">{{record.cost}}</td>
+                <td><input type="text" name="name" @change="newName($event)" v-show="show === record" :value="record.name"><span
+                        v-show="show !== record">{{record.name}}</span></td>
+                <td v-if="record.select === 2"><input type="number" name="cost"  @change="newCost($event)" v-show="show === record"
+                                                      :value="record.cost"><span v-show="show !== record">{{record.cost}}</span>
+                </td>
                 <td v-else></td>
+                <td>
+                    <button class="btn btn-info" v-show="show === record" @click="editRecord(record.id, record.select, record.name, record.cost)">
+                        Edit
+                    </button>
+                </td>
                 <td>
                     <button class="btn btn-danger" @click="deleteRecord(record.id)">Delete</button>
                 </td>
@@ -51,7 +61,10 @@
                 records: '',
                 income: '',
                 expense: '',
-                balance: ''
+                balance: '',
+                show: null,
+                getNewName: '',
+                getNewCost: ''
             }
         },
         mounted() {
@@ -63,7 +76,15 @@
                     .then((response) => {
                         this.getInitSetup();
                         flash('You have deleted a record');
-                    })
+                    }, (error) => {
+                        flash('Something went wrong!!!');
+                    });
+            },
+            newName(event){
+                this.getNewName = event.target.value;
+            },
+            newCost(event){
+                this.getNewCost = event.target.value;
             },
             getAllRecords() {
                 axios.get('/records/all')
@@ -100,8 +121,29 @@
                     this.getInitSetup();
                     this.incomeShow = false;
                     flash('You have created new record');
+                }, (error) => {
+                    flash('Something went wrong!!!');
+                });
+            },
+            editRecord(id, select, name, cost) {
+                axios.post('/records/edit/' + id, {
+                    _token: this._token,
+                    name: this.getNewName ? this.getNewName : name,
+                    cost: this.getNewCost ? this.getNewCost : cost,
+                    select: select
+                }).then((response) => {
+                    this.getInitSetup();
+                    flash('You have updated a record');
+                }, (error) => {
+                    flash('Something went wrong!!!');
                 });
             }
         }
     }
 </script>
+
+<style>
+    .edit-link:hover {
+        background: lightblue;
+    }
+</style>

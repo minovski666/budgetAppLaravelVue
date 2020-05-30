@@ -17,6 +17,8 @@ interface BaseRepositoryInterface
 
     public function create(array $args);
 
+    public function editRecord(array $args);
+
     public function first();
 
     public function get();

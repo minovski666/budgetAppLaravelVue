@@ -282,11 +282,20 @@ abstract class BaseRepository implements BaseRepositoryInterface
     public function create(array $args)
     {
         $this->unsetClauses();
-
         foreach ($args as $key => $value) {
             $this->model[$key] = $value;
         }
         $this->model->save();
+    }
+
+    public function editRecord(array $args)
+    {
+        $this->unsetClauses();
+        $model = $this->getById($args['id']);
+        foreach ($args as $key => $value) {
+            $model[$key] = $value;
+        }
+        $model->save();
     }
 
     /**

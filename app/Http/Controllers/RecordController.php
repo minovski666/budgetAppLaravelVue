@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateRequest;
 use App\Http\Requests\DeleteRequest;
+use App\Http\Requests\EditRequest;
 use App\Http\Requests\SearchRequest;
 use App\Http\Requests\SelectRequest;
 use App\Record;
@@ -95,5 +96,12 @@ class RecordController extends Controller
             'expense' => $this->recordService->getSearchExpense($srcReq->convertToDto()),
             'balance' => $this->recordService->getSearchBalance($srcReq->convertToDto())
         ];
+    }
+
+    public function edit(EditRequest $requestFromDto)
+    {
+        $this->recordService->editRecord($requestFromDto->convertToDto());
+
+        return back()->with('flash', 'message');
     }
 }

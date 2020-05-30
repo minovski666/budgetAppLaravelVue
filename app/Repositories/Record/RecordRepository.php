@@ -22,6 +22,11 @@ class RecordRepository extends BaseRepository implements RecordRepositoryInterfa
         $this->create($args);
     }
 
+    public function editingRecord($args)
+    {
+        $this->editRecord($args);
+    }
+
     public function showAllRecords()
     {
         return $this->model::where(DB::raw('MONTH(created_at)'), '=', date('n'))->get();

@@ -2111,6 +2111,16 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2122,7 +2132,10 @@ __webpack_require__.r(__webpack_exports__);
       records: '',
       income: '',
       expense: '',
-      balance: ''
+      balance: '',
+      show: null,
+      getNewName: '',
+      getNewCost: ''
     };
   },
   mounted: function mounted() {
@@ -2136,7 +2149,15 @@ __webpack_require__.r(__webpack_exports__);
         _this.getInitSetup();
 
         flash('You have deleted a record');
+      }, function (error) {
+        flash('Something went wrong!!!');
       });
+    },
+    newName: function newName(event) {
+      this.getNewName = event.target.value;
+    },
+    newCost: function newCost(event) {
+      this.getNewCost = event.target.value;
     },
     getAllRecords: function getAllRecords() {
       var _this2 = this;
@@ -2177,6 +2198,24 @@ __webpack_require__.r(__webpack_exports__);
 
         _this4.incomeShow = false;
         flash('You have created new record');
+      }, function (error) {
+        flash('Something went wrong!!!');
+      });
+    },
+    editRecord: function editRecord(id, select, name, cost) {
+      var _this5 = this;
+
+      axios.post('/records/edit/' + id, {
+        _token: this._token,
+        name: this.getNewName ? this.getNewName : name,
+        cost: this.getNewCost ? this.getNewCost : cost,
+        select: select
+      }).then(function (response) {
+        _this5.getInitSetup();
+
+        flash('You have updated a record');
+      }, function (error) {
+        flash('Something went wrong!!!');
       });
     }
   }
@@ -6728,6 +6767,25 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 // module
 exports.push([module.i, "\n.alert-flash {\n    position: fixed;\n    right: 1%;\n    bottom: 12%;\n}\n", ""]);
+
+// exports
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/RecordsComponent.vue?vue&type=style&index=0&lang=css&":
+/*!**********************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader??ref--6-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/RecordsComponent.vue?vue&type=style&index=0&lang=css& ***!
+  \**********************************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loader/lib/css-base.js */ "./node_modules/css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, "\n.edit-link:hover {\n    background: lightblue;\n}\n", ""]);
 
 // exports
 
@@ -38223,6 +38281,36 @@ if(false) {}
 
 /***/ }),
 
+/***/ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/RecordsComponent.vue?vue&type=style&index=0&lang=css&":
+/*!**************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader!./node_modules/css-loader??ref--6-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/RecordsComponent.vue?vue&type=style&index=0&lang=css& ***!
+  \**************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+var content = __webpack_require__(/*! !../../../node_modules/css-loader??ref--6-1!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/postcss-loader/src??ref--6-2!../../../node_modules/vue-loader/lib??vue-loader-options!./RecordsComponent.vue?vue&type=style&index=0&lang=css& */ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/RecordsComponent.vue?vue&type=style&index=0&lang=css&");
+
+if(typeof content === 'string') content = [[module.i, content, '']];
+
+var transform;
+var insertInto;
+
+
+
+var options = {"hmr":true}
+
+options.transform = transform
+options.insertInto = undefined;
+
+var update = __webpack_require__(/*! ../../../node_modules/style-loader/lib/addStyles.js */ "./node_modules/style-loader/lib/addStyles.js")(content, options);
+
+if(content.locals) module.exports = content.locals;
+
+if(false) {}
+
+/***/ }),
+
 /***/ "./node_modules/style-loader/lib/addStyles.js":
 /*!****************************************************!*\
   !*** ./node_modules/style-loader/lib/addStyles.js ***!
@@ -39015,32 +39103,170 @@ var render = function() {
         _vm._m(0),
         _vm._v(" "),
         _vm._l(_vm.records, function(record) {
-          return _c("tr", [
-            record.select === 1
-              ? _c("td", [_vm._v(_vm._s(record.cost))])
-              : _c("td"),
-            _vm._v(" "),
-            _c("td", [_vm._v(_vm._s(record.name))]),
-            _vm._v(" "),
-            record.select === 2
-              ? _c("td", [_vm._v(_vm._s(record.cost))])
-              : _c("td"),
-            _vm._v(" "),
-            _c("td", [
-              _c(
-                "button",
-                {
-                  staticClass: "btn btn-danger",
+          return _c(
+            "tr",
+            {
+              staticClass: "edit-link",
+              on: {
+                mouseover: function($event) {
+                  _vm.show = record
+                },
+                mouseleave: function($event) {
+                  _vm.show = null
+                }
+              }
+            },
+            [
+              record.select === 1
+                ? _c("td", [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "show",
+                          rawName: "v-show",
+                          value: _vm.show === record,
+                          expression: "show === record"
+                        }
+                      ],
+                      attrs: { name: "cost", type: "number" },
+                      domProps: { value: record.cost },
+                      on: {
+                        change: function($event) {
+                          return _vm.newCost($event)
+                        }
+                      }
+                    }),
+                    _c(
+                      "span",
+                      {
+                        directives: [
+                          {
+                            name: "show",
+                            rawName: "v-show",
+                            value: _vm.show !== record,
+                            expression: "show !== record"
+                          }
+                        ]
+                      },
+                      [_vm._v(_vm._s(record.cost))]
+                    )
+                  ])
+                : _c("td"),
+              _vm._v(" "),
+              _c("td", [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "show",
+                      rawName: "v-show",
+                      value: _vm.show === record,
+                      expression: "show === record"
+                    }
+                  ],
+                  attrs: { type: "text", name: "name" },
+                  domProps: { value: record.name },
                   on: {
-                    click: function($event) {
-                      return _vm.deleteRecord(record.id)
+                    change: function($event) {
+                      return _vm.newName($event)
                     }
                   }
-                },
-                [_vm._v("Delete")]
-              )
-            ])
-          ])
+                }),
+                _c(
+                  "span",
+                  {
+                    directives: [
+                      {
+                        name: "show",
+                        rawName: "v-show",
+                        value: _vm.show !== record,
+                        expression: "show !== record"
+                      }
+                    ]
+                  },
+                  [_vm._v(_vm._s(record.name))]
+                )
+              ]),
+              _vm._v(" "),
+              record.select === 2
+                ? _c("td", [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "show",
+                          rawName: "v-show",
+                          value: _vm.show === record,
+                          expression: "show === record"
+                        }
+                      ],
+                      attrs: { type: "number", name: "cost" },
+                      domProps: { value: record.cost },
+                      on: {
+                        change: function($event) {
+                          return _vm.newCost($event)
+                        }
+                      }
+                    }),
+                    _c(
+                      "span",
+                      {
+                        directives: [
+                          {
+                            name: "show",
+                            rawName: "v-show",
+                            value: _vm.show !== record,
+                            expression: "show !== record"
+                          }
+                        ]
+                      },
+                      [_vm._v(_vm._s(record.cost))]
+                    )
+                  ])
+                : _c("td"),
+              _vm._v(" "),
+              _c("td", [
+                _c(
+                  "button",
+                  {
+                    directives: [
+                      {
+                        name: "show",
+                        rawName: "v-show",
+                        value: _vm.show === record,
+                        expression: "show === record"
+                      }
+                    ],
+                    staticClass: "btn btn-info",
+                    on: {
+                      click: function($event) {
+                        return _vm.editRecord(
+                          record.id,
+                          record.select,
+                          record.name,
+                          record.cost
+                        )
+                      }
+                    }
+                  },
+                  [_vm._v("\n                    Edit\n                ")]
+                )
+              ]),
+              _vm._v(" "),
+              _c("td", [
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-danger",
+                    on: {
+                      click: function($event) {
+                        return _vm.deleteRecord(record.id)
+                      }
+                    }
+                  },
+                  [_vm._v("Delete")]
+                )
+              ])
+            ]
+          )
         }),
         _vm._v(" "),
         _c("tr", { staticClass: "text-dark" }, [
@@ -54627,7 +54853,9 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _RecordsComponent_vue_vue_type_template_id_2211b5c6___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./RecordsComponent.vue?vue&type=template&id=2211b5c6& */ "./resources/js/components/RecordsComponent.vue?vue&type=template&id=2211b5c6&");
 /* harmony import */ var _RecordsComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./RecordsComponent.vue?vue&type=script&lang=js& */ "./resources/js/components/RecordsComponent.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* empty/unused harmony star reexport *//* harmony import */ var _RecordsComponent_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./RecordsComponent.vue?vue&type=style&index=0&lang=css& */ "./resources/js/components/RecordsComponent.vue?vue&type=style&index=0&lang=css&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
 
 
 
@@ -54635,7 +54863,7 @@ __webpack_require__.r(__webpack_exports__);
 
 /* normalize component */
 
-var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__["default"])(
   _RecordsComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
   _RecordsComponent_vue_vue_type_template_id_2211b5c6___WEBPACK_IMPORTED_MODULE_0__["render"],
   _RecordsComponent_vue_vue_type_template_id_2211b5c6___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
@@ -54664,6 +54892,22 @@ component.options.__file = "resources/js/components/RecordsComponent.vue"
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_RecordsComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./RecordsComponent.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/RecordsComponent.vue?vue&type=script&lang=js&");
 /* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_RecordsComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/RecordsComponent.vue?vue&type=style&index=0&lang=css&":
+/*!***************************************************************************************!*\
+  !*** ./resources/js/components/RecordsComponent.vue?vue&type=style&index=0&lang=css& ***!
+  \***************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_RecordsComponent_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/style-loader!../../../node_modules/css-loader??ref--6-1!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/postcss-loader/src??ref--6-2!../../../node_modules/vue-loader/lib??vue-loader-options!./RecordsComponent.vue?vue&type=style&index=0&lang=css& */ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/RecordsComponent.vue?vue&type=style&index=0&lang=css&");
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_RecordsComponent_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_RecordsComponent_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__);
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_RecordsComponent_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_RecordsComponent_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_RecordsComponent_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0___default.a); 
 
 /***/ }),
 

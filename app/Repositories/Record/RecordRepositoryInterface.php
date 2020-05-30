@@ -8,6 +8,8 @@ interface RecordRepositoryInterface
 {
     public function storingRecord($args);
 
+    public function editingRecord($args);
+
     public function deleteRecord($id);
 
     public function showAllRecords();

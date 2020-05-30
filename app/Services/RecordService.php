@@ -6,6 +6,7 @@ namespace App\Services;
 
 use App\DTO\Record\CreateRecord;
 use App\DTO\Record\DeleteRecord;
+use App\DTO\Record\EditRecord;
 use App\DTO\Record\SearchRecord;
 use App\DTO\Record\SelectRecord;
 use App\Repositories\Record\RecordRepository;
@@ -36,6 +37,17 @@ class RecordService
         $record->name = $dto->name;
         $args = ['cost' => $record->cost, 'select' => $record->select, 'name' => $record->name];
         $this->recordRepository->storingRecord($args);
+    }
+
+    public function editRecord(EditRecord $dto)
+    {
+        $record = new Record();
+        $record->id = $dto->id;
+        $record->cost = $dto->cost;
+        $record->select = $dto->select;
+        $record->name = $dto->name;
+        $args = ['id' => $record->id, 'cost' => $record->cost, 'select' => $record->select, 'name' => $record->name];
+        $this->recordRepository->editingRecord($args);
     }
 
     public function getIncome()
