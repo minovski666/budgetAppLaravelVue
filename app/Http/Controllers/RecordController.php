@@ -35,7 +35,7 @@ class RecordController extends Controller
     {
         $this->recordService->store($requestFromDto->convertToDto());
 
-        return 'Success';
+        return back()->with('flash', 'message');
     }
 
     public function showFilters()
@@ -66,7 +66,7 @@ class RecordController extends Controller
     {
         $this->recordService->destroyRecord($delReq->convertToDto());
 
-        return 'Deleted successful';
+        return back()->with('flash', 'message');
     }
 
     public function select(SelectRequest $selReq)

@@ -62,6 +62,7 @@
                 axios.get('records/delete/' + id)
                     .then((response) => {
                         this.getInitSetup();
+                        flash('You have deleted a record');
                     })
             },
             getAllRecords() {
@@ -98,6 +99,7 @@
                 }).then((response) => {
                     this.getInitSetup();
                     this.incomeShow = false;
+                    flash('You have created new record');
                 });
             }
         }

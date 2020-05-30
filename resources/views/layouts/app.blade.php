@@ -102,6 +102,7 @@
                         <div class="col-md-12 m-b-30">
                             <h3>Budget</h3>
                             <router-view></router-view>
+                            <flash message="{{ session('flash') }}"></flash>
                         </div>
                     </div>
                 </div>

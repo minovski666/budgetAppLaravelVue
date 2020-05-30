@@ -38,6 +38,7 @@ const router = new VueRouter({
 //
 // Vue.component('records-index', require('./components/RecordsComponent.vue').default);
 // Vue.component('filter-records', require('./components/FilterComponent.vue').default);
+Vue.component('flash', require('./components/Flash.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
